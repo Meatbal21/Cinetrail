@@ -6,15 +6,15 @@ import Homepage from './Pages/Homepage/Homepage'
 import ThemeContextProvider from './context/ThemeContext'
 
 function App() {
-  const apiKey = '102403788fd7e2a7588eff2f615fc0c5'
-  const baseURL = 'https://api.themoviedb.org/3'
+const apiKey = "e1f36282caa3eb04affd14898fd1d11e"
+const baseURL = "https://api.themoviedb.org/3"
 
   return (
     <BrowserRouter>
     <ThemeContextProvider>
     <Header />
       <Routes>
-        <Route path='/' element={<Homepage apiKey= {apiKey} baseURl= {baseURL} />} />
+        <Route path='/' element={<Homepage apiKey={apiKey} baseURl={baseURL} />} />
     </Routes>
     </ThemeContextProvider>
     </BrowserRouter>

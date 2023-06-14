@@ -17,6 +17,7 @@
         <input className='search-input' type="text" placeholder='Search Movies' />
         </div>
         
+        
         <div className='header-icon-container'>
             {
                 darkMode?
