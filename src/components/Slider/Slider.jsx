@@ -13,8 +13,6 @@ function Slider(apiKey, baseURL) {
       .then(res=>{
           console.log(res.data.results)
           setUpcomingMovies(res.data.results)
-          const rating= res.data.results.map(movie => movie.vote_average/2)
-          setMovieRatings(rating)
       })
       .catch(err=>console.log(err))
     }, [])
