@@ -6,15 +6,15 @@ import Homepage from './Pages/Homepage/Homepage'
 import ThemeContextProvider from './context/ThemeContext'
 
 function App() {
-const apiKey = "e1f36282caa3eb04affd14898fd1d11e"
-const baseURL = "https://api.themoviedb.org/3"
+const apiKey = import.meta.env.VITE_API_KEY;
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
   return (
     <BrowserRouter>
     <ThemeContextProvider>
     <Header />
       <Routes>
-        <Route path='/' element={<Homepage apiKey={apiKey} baseURl={baseURL} />} />
+        <Route path='/' element={<Homepage apiKey={apiKey} baseUrl={baseUrl} />} />
     </Routes>
     </ThemeContextProvider>
     </BrowserRouter>

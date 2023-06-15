@@ -3,11 +3,11 @@ import './Homepage.css'
 import Slider from '../../components/Slider/Slider'
 
 
-function Homepage(apiKey, baseURL) {
+function Homepage({apiKey, baseUrl}) {
   return (
     
     <div className='homepage-container'>
-      <Slider apiKey= {apiKey} baseURl= {baseURL}/>
+      <Slider apiKey= {apiKey} baseUrl= {baseUrl}/>
       
       </div>
   )
