@@ -18,7 +18,7 @@
     font-size: 2rem;
     font-weight:bold;
  }
- .header-icon-container{
+ .header-buttons-container{
     display: flex;
     align-items: center;
  }
@@ -33,7 +33,7 @@
     background-color: var(--black);
     color:var(--grey-text);
 }
-.header-button{
+.theme-buttons{
     background-color: var(--black);
     border-radius:20px;
     display: flex;
@@ -41,13 +41,13 @@
     align-items: center;
     border:solid 1px var(--grey);
 }
-.theme-button{
+.theme-icon{
     font-size: 36px;
     border-radius:50%;
     cursor:pointer;  
     padding:5px;
 }
-.theme-button-active{
+.theme-icon-active{
     background-color: var(--red);
     padding:0;
 }
