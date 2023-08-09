@@ -27,7 +27,7 @@ function Genre({baseUrl, apiKey, movieGenre}) {
         <p>Genres: </p>
         {movieGenre?.map((id, index)=>{
             const genre = allGenre.find((genre)=> genre.id === id);
-            console.log(genre)
+            
             return(
                 <p key={id}>
                     {genre?.name}
