@@ -4,7 +4,7 @@
  import { Link } from 'react-router-dom'
  import {MdOutlineLightMode, MdOutlineDarkMode} from 'react-icons/md'
  import axios from 'axios'
-import SearchResults from '../SearchResults/SearchResults'
+ import SearchResults from '../SearchResults/SearchResults'
 
 
  function Header({baseUrl, apiKey}) {
@@ -34,7 +34,11 @@ import SearchResults from '../SearchResults/SearchResults'
       <div className={darkMode ?"header-container":"header-container header-light" }>
         <Link className="logo" to="/">CineTrail</Link>
         <div className="search-container">
-          <input className="search-input" placeholder="Search movies..."/>
+          <input 
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className = {`search-input ${query && 'input-active'} ${!query && !darkMode && query}`}
+          placeholder="Search movies..."/>
 
       {query.trim() !== "" && (
         <div className='search-results-container'>
