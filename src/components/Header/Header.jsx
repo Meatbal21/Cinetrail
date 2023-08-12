@@ -24,7 +24,7 @@
       })
       .catch(err=>console.log(err))
     }
-    },[])
+    },[query])
 
 
   

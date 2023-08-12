@@ -10,7 +10,7 @@ function Genre({baseUrl, apiKey, movieGenre}) {
 
     useEffect(() => {
          //calling specific name on api not id
-        axios.get(`${baseUrl}/genre/list?api_key=${apiKey}`)
+        axios.get(`${baseUrl}/genre/movie/list?api_key=${apiKey}`)
         .then(res=>{
          console.log(res.data.genres)
          setAllGenre(res.data.genres)

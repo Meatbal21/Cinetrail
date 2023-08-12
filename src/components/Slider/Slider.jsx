@@ -4,6 +4,7 @@ import axios from 'axios'
 import Genre from '../Genre/Genre'
 import Ratings from '../Ratings/Ratings'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
+import { Link } from 'react-router-dom'
 
 function Slider({apiKey, baseUrl}) {
     //set up for api calling
@@ -72,6 +73,7 @@ function Slider({apiKey, baseUrl}) {
         <Genre movieGenre={upcomingMovies[index]?.genre_ids} baseUrl={baseUrl} apiKey={apiKey}/>
         <p>Release Date: {upcomingMovies[index]?.release_date}</p>
         <Ratings movieRating={movieRating[index]} />
+        <Link to={`/moviedetails/${upcomingMovies[index]?.id}`} className='see-details'>See Details</Link>
 
 
       </div>
