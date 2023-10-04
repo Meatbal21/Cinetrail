@@ -8,9 +8,9 @@ import SignUp from './Pages/SignUp/SignUp'
 import SignIn from './Pages/SignIn/SignIn'
 
 function App() {
-const apiKey = import.meta.env.VITE_API_KEY;
-const baseUrl = import.meta.env.VITE_BASE_URL;
-const serverUrl = import.meta.env.VITE_SERVER_URL;
+const apiKey = 'e1f36282caa3eb04affd14898fd1d11e';
+const baseUrl = 'https://api.themoviedb.org/3';
+const serverUrl = 'https://cinetrail-server.herokuapp.com/';
 
   return (
     <BrowserRouter>
