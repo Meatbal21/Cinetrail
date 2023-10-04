@@ -52,7 +52,7 @@ function Slider({apiKey, baseUrl}) {
 
     //styling background
     const sliderStyle = {
-      backgroundImage: `url("${imageBaseUrl}${upcomingMovies[index]?.backdrop_path}")`,
+      backgroundImage: `url("https://image.tmdb.org/t/p/original/${upcomingMovies[index]?.backdrop_path}")`,
       backgroundSize: 'cover',
       backgroundPosition: "center",
       backgroundRepeat: 'no-repeat',
