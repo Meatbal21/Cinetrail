@@ -7,10 +7,12 @@ import Ratings from '../../components/Ratings/Ratings'
 import Genre from '../../components/Genre/Genre'
 import Review from '../../components/Review/Review'
 import { ThemeContext } from '../../context/ThemeContext'
+import { UserContext } from '../../context/UserContext'
+import GenreName from '../../components/GenreName/GenreName'
 
 
 
-function MovieDetails({baseUrl, apiKey, imageBaseUrl, serverUrl}) {
+function MovieDetails({baseUrl, apiKey, imageBaseUrl, serverUrl, movieGenre}) {
     const {movieid} = useParams();
     const [videoLink, setVideoLink] = useState('');
     const [movie, setMovie] = useState([]);
@@ -19,6 +21,12 @@ function MovieDetails({baseUrl, apiKey, imageBaseUrl, serverUrl}) {
     const [reviews,setReviews]=useState([]);
     const [totalReviews,setTotalReviews]=useState(0)
     const [reviewNumber,setReviewNumber]=useState(3)
+    const {user, token} = useContext(UserContext)
+    const [added, setAdded] = useState(false)
+    const [genres, setGenres] = useState([])
+
+
+
 
     useEffect(() => {
       axios.get(`${baseUrl}/movie/${movieid}?api_key=${apiKey}`)
@@ -26,13 +34,11 @@ function MovieDetails({baseUrl, apiKey, imageBaseUrl, serverUrl}) {
         console.log(res.data)
         setMovie(res.data)
         setMovieRating((res.data.vote_average)/2)
+        setGenres(res.data.genres)
       })
       .catch(err=>console.log(err))
     
 
-
-
-    
       axios.get(`${baseUrl}/movie/${movieid}/videos?api_key=${apiKey}&language=en-US`)
         .then(res => {
             console.log(res.data)
@@ -59,12 +65,12 @@ function MovieDetails({baseUrl, apiKey, imageBaseUrl, serverUrl}) {
 
 
 
-    const addToFavorites =() => {
+  const addToFavorites =() => {
       console.log(serverUrl)
       if(!token){
-      alert("Please login to add favorites")
-      }
-      else {
+        alert("Please login to add movie to your favorites")
+        }
+        else {
         axios.post(`${serverUrl}/favoritesMovies`,{
           user_id:user._id,
           movie_id:movie.id
@@ -76,17 +82,18 @@ function MovieDetails({baseUrl, apiKey, imageBaseUrl, serverUrl}) {
       }
     }
 
-    const removeFromFavorites =() => {  
+  const removeFromFavorites =() => {  
     axios.delete(`${serverUrl}/favoritesMovies/${user._id}/${movie.id}`)
     .then(res=>{
+      console.log(res.data)
       setAdded(false)
     })
     .catch(err=>console.log(err)) 
     }
 
 
-    useEffect=(() => {  
-    axios.post(`${serverUrl}/favoritesMovies/search`,{
+  useEffect(() => {  
+    axios.post(`${serverUrl}favoritesMovies/search`,{
     user_id:user._id,
     tmdb_id:movie.id,
     })
@@ -102,70 +109,68 @@ function MovieDetails({baseUrl, apiKey, imageBaseUrl, serverUrl}) {
 
 
   return (
-  <div className={darkMode ?"movie-details-container":"movie-details-container details-light" }>
+    <div className={darkMode ?"movie-details-container" : "movie-details-container details-light"}>
     {
-        videoLink ?
-        <div className='trailer-container'>
-          <ReactPlayer className='trailer-player' url={`youtube.com/watch?v=${videoLink}`}
+      videoLink ? 
+      <div className="trailer-container">
+      <ReactPlayer className="trailer-player" url={`https://www.youtube.com/watch?v=${videoLink}`}
           config={{
             youtube: {
-              playerVars: { showinfo: 1, origin:"http://localhost:3000"}
+              playerVars: { showinfo: 1,origin:"http://localhost:3000" }
             }
           }}
+          // playing
           width='100%'
           height='100%'
-          />
-        </div>
-      :
-      <div className='trailer-container-blank' style={{
-      backgroundImage: `url("${imageBaseUrl}${movie?.backdrop_path}")`,
-      backgroundSize: 'cover',
-      backgroundPosition: "center",
-      }}><p>No Trailer Released Yet</p>
-      </div>
-    }
-
-    <div className={darkMode ?"details-container":"details-container details-light" }>
-      <div className='title-container'>
-        <h1>{movie.title}</h1>
-
-        {
-          added
-           ?<p className='remove-btn' onClick={removeFromFavorites}>Remove From Favorites</p>
-            :<p className='add-btn' onClick={addToFavorites}>Add To Favorites</p>
-        }
-
-      </div>
-      <Ratings movieRating={movieRating} />
-      <div className='info-container'>
-        <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} className="details-poster" />
-      </div>
-      <p className='movie-details-container'></p>
-      <div className='movie-info'>
-          <h2>{movie.tagline}</h2>
-          <h2>{movie.overview}</h2>
-          <h4>Status: <span>{movie.status}</span></h4>
-          <h4>Runtime: <span>{movie.runtime} min.</span></h4>
-          <h4>Budget: <span>${movie.budget}</span></h4>
-          <Genre component='details' movieGenre={movie?.genres} baseUrl={baseUrl} apiKey={apiKey}/>
-      </div>
+        />
     </div>
-      <div className='review-container'>
-        <p className='reviews-title'>Reviews</p>
-          {
-            reviews.slice(0,reviewNumber).map(item=> {
-              return <Review key={item.id} review={item} />
-            })
-          }
-          {
-            reviewNumber >= totalReviews
-            ?<p className='review-number' onClick={() => setReviewNumber(3)}><em>end of reviews.Collapse</em></p>
-            :<p className='review-number' onClick={() => setReviewNumber(reviewNumber + 3)}><em>read more reviews</em></p>
-
-          }
-      </div>
+    : <div className="trailer-container-blank" style={{
+      backgroundImage:`url("https://image.tmdb.org/t/p/original/${movie?.backdrop_path}")`,
+      backgroundPosition:"center",
+      backgroundSize:"cover"
+      }}><p>No Trailers Released Yet</p></div> 
+  }
+  
+    <div className={darkMode ?"details-container" :"details-container details-light" }>
+          <div className="title-container">
+            <h1>{movie.title}</h1>
+            {
+              added 
+              ? <span className="remove-btn" onClick={removeFromFavorites}>Remove from favorites.</span> 
+              : <span className="add-btn" onClick={addToFavorites}>Add to favorites.</span>
+            }
+          </div>
+          <Ratings movieRating={movieRating}/>
+          <div className="info-container">
+             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} className="details-poster"/>
+             <div className="movie-info">
+                <h2>{movie.tagline}</h2>
+                <h4>{movie.overview}</h4>  
+                <h4>Status: <span>{movie.status}</span></h4>
+                <h4>Runtime: <span>{movie.runtime} min.</span></h4>
+                <h4>Budget: $<span>{movie.budget}</span></h4>
+               
+             </div> 
+                      
+          </div>
+          <div className="review-container">
+              <p className="reviews-title">Reviews</p>
+              {
+                  reviews.slice(0,reviewNumber).map(item=>{
+                    return <Review key={item.id} review={item}/>
+                  })
+              }
+              {
+                  reviewNumber >= totalReviews 
+                  ? <p className="review-number" onClick={()=>setReviewNumber(3)}><em>End of reviews.Collapse</em></p>
+                  : <p className="review-number" onClick={()=>setReviewNumber(reviewNumber+3)}><em>Read more reviews</em></p>
+              }
+              
+          </div>
+    </div>
+  
   </div>
-    
+  
   )
 }
 

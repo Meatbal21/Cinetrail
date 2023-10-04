@@ -60,6 +60,7 @@ color:var(--white);
     width:100%;
     animation: input 0.5s ease 0s 1 normal forwards;
     overflow: scroll;
+    z-index: 4;
 }
 
 .search-results-item{

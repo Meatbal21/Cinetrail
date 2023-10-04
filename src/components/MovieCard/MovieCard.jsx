@@ -5,7 +5,7 @@ import Ratings from '../Ratings/Ratings'
 
 function MovieCard({data, imageUrl, radius, height, width, cardStyle, imageBaseUrl}) {
 
-  const [rating, setRating] = useState()
+  const [rating, setRating] = useState(Math.round(data?.vote_average/2))
 
   const imageStyle={
     backgroundImage: `url("https://image.tmdb.org/t/p/w500//${imageUrl}")`,

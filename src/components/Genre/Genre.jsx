@@ -2,45 +2,33 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 
 
-
-function Genre({baseUrl, apiKey, movieGenre}) {
-    //making state for genre
-    const [allGenre, setAllGenre] = useState([]);
-
+export default function Genre({apiKey, baseUrl, movieGenre}) {
+    const [allGenre, setAllGenre] = useState([])
 
     useEffect(() => {
-         //calling specific name on api not id
         axios.get(`${baseUrl}/genre/movie/list?api_key=${apiKey}`)
-        .then(res=>{
-         console.log(res.data.genres)
-         setAllGenre(res.data.genres)
+        .then((res)=>{
+            (console.log(res.data.genres));
+            (setAllGenre(res.data.genres));
         })
         .catch(err=>console.log(err))
+    }, [])
 
 
 
-    },[])
-
-
-    return (
-    <div style={{display: 'flex'}}>
-        <p>Genres: </p>
-        {movieGenre?.map((id, index)=>{
-            const genre = allGenre.find((genre)=> genre.id === id);
-            
-            return(
-                <p key={id}>
-                    {genre?.name}
-                    {index !== movieGenre.length - 1 && ',' }
-                </p>
-            )
-        })
-
-
-        }
-        
-        </div>
+  return (
+    <div style={{display:'flex'}}>
+        <p>Genres: &nbsp;</p>
+        {movieGenre &&
+        movieGenre?.map((id, index)=>{
+            for(let i = 0; i < allGenre.length; i++ ){
+                if(allGenre[i].id === id){
+                    return (<p>{allGenre[i].name}
+                    {index === movieGenre.length-1 ? " " : ","} &nbsp;
+                    </p>);
+                }
+            }
+        })}
+    </div>
   )
 }
-
-export default Genre

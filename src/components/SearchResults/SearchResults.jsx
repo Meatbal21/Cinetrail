@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import noImage from '../../assets/no-image.png'
 
-function SearchResults({movie}) {
+function SearchResults({movie, setQuery}) {
     const navigate = useNavigate();
     const [imageError, setImageError] = useState(false);
 
@@ -14,7 +14,7 @@ function SearchResults({movie}) {
 
   return (
     <div className='search-results-item' onClick={handleNavigation}>
-        <img className='result-img' src={imageError ? noImage :`https://image.tmdb.org/t/p/w500 ${movie.backdrop_path}`}
+        <img className='result-img' src={imageError ? noImage :`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
             onError = {() => setImageError(true)} alt='no image available' />
 
         <p>{movie.title}</p>
